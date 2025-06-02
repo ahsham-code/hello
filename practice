@@ -1,0 +1,118 @@
+step 1 make mavan project
+
+open the terminal from the file to push it
+
+Step 2. Push Project to GitHub: 
+ Initialize Git, add remote, commit and push: 
+git init 
+git add . 
+git commit -m "Initial commit" 
+git branch -M  main 
+git remote add origin <GitHub_Repo_URL> 
+git push -u origin main  
+
+
+next :
+
+: Jenkins CI  Setup for  Maven  Project 
+
+
+ clean compile test package 
+{
+java -cp target/file name-1.0-SNAPSHOT.jar com.example.App
+
+Archive the Artifact: 
+ Post-build action: Select Archive the artifacts, and give:  
+                   target/*.jar }
+
+
+
+open terminal
+
+Step 3. Install Ansible in WSL (Ubuntu): 
+
+wsl --install
+
+ mkdir  ansible-lab 
+ cd  ansible-lab 
+ nano inventory.ini 
+
+ [local] 
+ localhost ansible_connection=local
+
+save karo and exist
+
+
+nano deploy.yml
+{
+- name: Deploy JAR
+  hosts: local
+  become: true
+
+  tasks:
+    - name: Copy JAR file
+      copy:
+        src: /mnt/c/Users/Aditya Kumar/demo15/target/demo15-1.0-SNAPSHOT.jar
+        dest:  /mnt/c/Users/Aditya Kumar/adi/app.jar
+        mode: '0755'
+
+    - name: Run JAR file
+      shell: nohup java -jar "/mnt/c/Users/Aditya Kumar/adi/app.jar" > "/mnt/c/Users/Aditya Kumar/adi/app.log" 2>&1 &
+}
+
+save and exit 
+
+  ansible-playbook -i  inventory.ini   deploy.yml -K
+
+
+ cat  app.log 
+
+
+step 4:
+
+deleat the target from the file 
+
+change the prom camond 
+
+ <build> 
+                              <plugins> 
+                              <plugin> 
+                              <artifactId>maven-jar-plugin</artifactId> 
+                              <version>3.1.0</version> 
+                              <configuration> 
+                                     <archive> 
+                                     <manifest> 
+                                             <addClasspath>true</addClasspath> 
+                                             <mainClass>com.example.App</mainClass>    
+                                    </manifest> 
+                                   </archive> 
+                             </configuration> 
+                           </plugin> 
+                         </plugins> 
+                         </build> 
+
+ step 5: open the terminal inside the folder
+
+mvn compile
+
+mvn test
+ mvn package
+
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+
+git add .
+
+git commit -m "hsh"
+
+git push origin main
+
+
+ step 6: open ubento terminal
+
+cd filename
+
+ansible-playbook -i  inventory.ini   deploy.yml -K
+
+cat app.log
